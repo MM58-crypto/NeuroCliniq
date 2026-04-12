@@ -30,7 +30,7 @@ def fetch_faqs():
     return "\n".join([f"Q: {row[0]}\nA: {row[1]}" for row in rows])
 
 
-def ask(user_question):
+def ask_model(user_question):
     faq_context = fetch_faqs()
 
     prompt = f"""
@@ -56,10 +56,12 @@ Patient question: {user_question}
     except Exception as e:
         return f"An error occurred: {e}"
 
-
+"""
 # test loop
 while True:
     user_input = input("Ask a question (or type 'exit'): ")
     if user_input.lower() == "exit":
         break
-    print(f"\nBot: {ask(user_input)}\n")
+    print(f"\nBot: {ask_model(user_input)}\n")
+
+"""
