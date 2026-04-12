@@ -1,9 +1,11 @@
-from fastapi import FastAPI, Request, APIRouter
+from fastapi import FastAPI, Request, APIRouter, Response, HTTPException
 import logging
 import os
 
 app = FastAPI()
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN")
@@ -26,10 +28,10 @@ async def verify_webhook(request: Request):
     challenge = params.get("hub.challenge")
 
     if mode == "subscribe" and token == VERIFY_TOKEN:
-        logger.info("Webhook verified successfully")
+        logger.info("Webhook verified successfully ")
         return Response(content=challenge, media_type="text/plain")
 
-    logger.warning("Webhook verification failed")
+    logger.warning("Webhook verification failed ")
     raise HTTPException(status_code=403, detail="Verification failed")
 
 @router.post("")
